@@ -39,15 +39,16 @@ if ($db->connect_errno > 0) {
 }
 
 //Send form data to db
-mysqli_query($db, "INSERT INTO employee (fName, lName, eeNumber)
+mysqli_query($db, "INSERT INTO eeName (fName, lName, eeNumber)
                         VALUES ('$_POST[fName]', '$_POST[lName]', '$_POST[eeNum]')");
 
 ECHO "<h2>Record Created For: " .  $_POST[fName] . " " .  $_POST[lName] . "</h2>";
-//print_r($_POST)
+//print_r($_POST);
 
-echo "<br /> <br /> <br />";
+echo "<br />";
+echo "<h2>Now put your new employee on the schedule to display the results! </h2>";
+echo "<br />";
 echo "<h2><a href=\"proofOfConcept.php\">Return to Proof of concept page</a></h2>";
-echo "<br /> <br /> <br />";
-echo "<h2>Regenerate employee table without rebuilding database to see changes</h2>";
+
 
 ?>

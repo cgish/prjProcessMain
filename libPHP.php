@@ -62,6 +62,59 @@ function displayResult($result, $sql)
     }
 }  //end of displayResult ($result, $sql)
 
+
+//______________________________________displaySchedule()
+function displaySchedule ( )  {
+    global $sql;
+
+    $db = new mysqli(DBF_SERVER, DBF_USER, DBF_PASSWORD, DBF_NAME);
+    if ($db->connect_errno > 0) {
+        die('unable to connect to database [' . $db->connect_error . ']');
+    }
+
+    $sql = "SELECT eeName.fName, eeName.lName, eeName.eeNumber, eeSchedule.scheduledDate,
+                                               eeSchedule.scheduledStart, eeSchedule.scheduledEnd                                             
+                                            
+                                              FROM eeSchedule                                             
+                  
+                                               LEFT OUTER JOIN eeName ON eeSchedule.eeNumber = eeName.eeNumber
+                                               
+                                               WHERE eeName.eeNumber = '" . $_POST[rdoSelectEE] . "'
+                   
+                                               ORDER BY lName
+                                                                                                                                                                        
+                                            ";
+    // $sql = "SELECT * FROM eeName";
+    $result = $db->query($sql);
+
+    //get data from the database using sql
+    //if ($result = $db->query($sql)) {
+    //   die('There was an error running the query [' . $db->connect_error . ']');
+    //}
+
+    echo '<h2>Employee Schedule</h2>';
+    echo '<table class="table">';
+    echo '<tr>';
+    echo '<th colspan="2">Name</th>';
+    echo '<th>Employee #</th>';
+    echo '<th>Date</th>';
+    echo '<th>Start Time</th>';
+    echo '<th>End Time</th>';
+
+
+    while ($row = $result->fetch_assoc()) {
+        echo '<tr>';
+        echo '<td>' . $row['fName'] . '</td>';
+        echo '<td>' . $row['lName'] . '</td>';
+        echo '<td>' . $row['eeNumber'] . '</td>';
+        echo '<td>' . $row['scheduledDate'] . '</td>';
+        echo '<td>' . $row['scheduledStart'] . '</td>';
+        echo '<td>' . $row['scheduledEnd'] . '</td>';
+        echo '<td>' . $row['eeStatus'] . '</td>';
+    }
+    echo '</table>';
+}
+
 //______________________________runQuery($sql, $msg, $echoSuccess)
 function runQuery($sql, $msg, $echoSuccess)
 {

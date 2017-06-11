@@ -117,27 +117,29 @@
             <hr />-->
             <h2>Questions I would ask a client in order to complete this project</h2>
             <ol>
-                <li><strong>Who will use this employee scheduling program?</strong>This project is for the benefit of multiple
-                    parties that need to access it.  Employees  will need an easy interface to see their work schedules.  Management will use the project to add employees,
+                <li><strong>Who will use this employee scheduling program?</strong>  This project is for the benefit
+                    of multiple parties that need to access it.  Employees  will need an easy interface to see their
+                    work schedules.  Management will use the project to add employees,
                     and create work schedules.  HR will need to view previous schedules in the event of disciplinary actions.</li>
                 <br />
-                <li><strong>What will need to be saved for HR, and other long term storage?</strong>The data itself will need
-                    to be kept for seven years.  We would need the employee's name, scheduled date and shift.  We would like
+                <li><strong>What will need to be saved for HR, and other long term storage?</strong>  The schedule
+                    itself will need to be kept for seven years.  We would need the employee's name, scheduled date and shift.  We would like
                     this to be able to be displayed separate from what the active employees see.</li>
                 <br />
-                <li><strong>Will anything need to be able to be printed off?</strong>Yes, we would need paper copies for the
-                    employee file when necessary.</li>
+                <li><strong>Will anything need to be able to be printed off?</strong>  Yes, we would need paper copies
+                    for the employee file when necessary.</li>
                 <br />
-                <li><strong>Or will the data need to be saved in other formats?</strong>A screen that we could print or save as a
-                    pdf with chrome's print dialogue would be fine.</li>
+                <li><strong>Or will the data need to be saved in other formats?</strong>  A screen that we could print
+                    or save as a pdf with chrome's print dialogue would be fine.</li>
                 <br />
-                <li><strong>If so, what are those  formats?</strong>See above, PDF via screen print if necessary.</li>
+                <li><strong>If so, what are those  formats?</strong>  See above, PDF via screen print if necessary.</li>
                 <br />
-                <li><strong>When will this need to be fully completed?</strong>Sunday, June 11, 2017</li>
+                <li><strong>When will this need to be fully completed?</strong>  Sunday, June 11, 2017</li>
                 <br />
-                <li><strong>When can we review an initial sample of the program?</strong>Anytime.  Just email me.</li>
+                <li><strong>When can we review an initial sample of the program?</strong>  Anytime.  Just email me.</li>
                 <br />
-                <li><strong>Where will the program be used?</strong>The program will be implemented on the companies intranet.</li>
+                <li><strong>Where will the program be used?</strong>  The program will be implemented on the companies
+                    intranet.</li>
                 <br />
             </ol>
         </div>
@@ -266,7 +268,7 @@ You may find it helpful to answer the following questions:<br />
     </div>
         </div><!--------------------------end of row 4------->
 <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-2">
                 <div id="roughDraft">
                     <a href="graphic/prjProcessRevOne.JPG" target="_blank"><img class="img-thumbnail" width="400" height="300"
                                                                             src="graphic/prjProcessRevOne.JPG"
@@ -275,25 +277,44 @@ You may find it helpful to answer the following questions:<br />
                 </div>
             </div>
 
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-2">
                 <div id="dataLayout">
                     <div id="tableData">
                         <a href="graphic/dataBaseLayout.png" target="_blank"><img class="img-thumbnail" width="400" height="200"
                                                                                   src="graphic/dataBaseLayout.png"
                                                                                   id="datalayout"></a><br /><br />
-                        <strong>Database Layout with Sample Data Included</strong>
+                        <strong>Database Layout with Sample Data Included Rev.1</strong>
                     </div>
                 </div>
             </div>
 
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-2">
                 <div id="dataTable">
                     <a href="graphic/dataTablesLayout.png" target="_blank"><img class="img-thumbnail" width="400" height="200"
                                                                                 src="graphic/dataTablesLayout.png"
                                                                                 id="dataTablePng"></a><br /><br />
-                    <strong>Table Diagram</strong>
+                    <strong>Table Diagram Rev.1</strong>
                 </div>
             </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-2">
+            <div id="dataTable">
+                <a href="graphic/databaseLayoutRevTwo.png" target="_blank"><img class="img-thumbnail" width="400" height="200"
+                                                                            src="graphic/databaseLayoutRevTwo.png"
+                                                                            id="dataTablePng"></a><br /><br />
+                <strong>Database Layout with Sample Data Included Rev.2</strong>
+            </div>
+        </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-2">
+            <div id="dataTable">
+                <a href="graphic/dataTablesLayoutRevTwo.png" target="_blank"><img class="img-thumbnail" width="400" height="200"
+                                                                            src="graphic/dataTablesLayoutRevTwo.png"
+                                                                            id="dataTablePng"></a><br /><br />
+                <strong>Table Diagram Rev.2</strong>
+            </div>
+        </div>
+
     </div><!--    End of row 4    -->
 
 

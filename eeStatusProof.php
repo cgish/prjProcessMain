@@ -39,9 +39,9 @@ if ($db->connect_errno > 0) {
 }
 
 //Send form data to db
-mysqli_query($db, "UPDATE employee 
+mysqli_query($db, "UPDATE eeName 
                                                 Set eeStatus = '$_POST[eeStatus]'
-                                                WHERE eeNumber = '$_POST[currentEEStatus]'");
+                                                WHERE eeNumber = '$_POST[currentEEnumber]'");
 
 
 

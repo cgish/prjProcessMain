@@ -47,15 +47,16 @@ if ($db->connect_errno > 0) {
 
 
 
-mysqli_query($db, "INSERT INTO employee (fName, lName, eeNumber)
-                        VALUES ('$_POST[fName]', '$_POST[lName]', '$_POST[eeNum]')");
+mysqli_query($db, "INSERT INTO eeSchedule (eeNumber, scheduledDate, scheduledStart, scheduledEnd )
+                        VALUES ('$_POST[currentEESchedule]', '$_POST[workDate]', '$_POST[startTime]', 
+                        '$_POST[endTime]')");
 
-ECHO "<h2>Record Modified For: " .  $_POST[fName] . " " .  $_POST[lName] . "</h2>";
-print_r($_POST);
+ECHO "<h2>Record Modified For: " .  $_POST[currentEESchedule] . "</h2>";
+//print_r($_POST);
 
 echo "<br /> <br /> <br />";
 echo "<h2><a href=\"proofOfConcept.php\">Return to Proof of concept page</a></h2>";
 echo "<br /> <br /> <br />";
-echo "<h2>Rebuild employee table without rebuilding database to see changes</h2>";
+echo "<h2>Display employee table without rebuilding database to see updated schedule</h2>";
 
 ?>

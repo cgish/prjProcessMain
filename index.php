@@ -85,6 +85,12 @@ xs - xtra small       mobile       0px+  -->
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <br /><br /><br/>
             <h1>Home Page</h1>
+            <p>
+                <?php
+                //print_r($_POST);
+                //print_r($_SERVER)
+                ?>
+            </p>
         </div>
     </div><!--_______________________________/Row1____________-->
 
@@ -92,24 +98,46 @@ xs - xtra small       mobile       0px+  -->
     <!--  ______________________________  Start of Row2_______    -->
     <div class="row">
         <!--___________________________________Start Col1______-->
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-             <div class="well">Row2Col1</div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-12">
+             <div class="well">
+                 <form action="<?php echo htmlentities($_SERVER['PHP_SELF']) ?>"
+                            method="post"
+                            id="eeScheduleSelection"
+                            name="eeScheduleSelection">
+                 <div class="form-group">
+                     <label for="eeSelection">Select Employee</label>
+                     <select class="form-control"
+                                  id="rdoSelectEE"
+                                  name="rdoSelectEE">
+                         <?PHP
+                         global $sql;
+
+                         $db = new mysqli(DBF_SERVER, DBF_USER, DBF_PASSWORD, DBF_NAME);
+                         if ($db->connect_errno > 0) {
+                             die('unable to connect to database [' . $db->connect_error . ']');
+                         }
+                         // Loop through the table to build the <option> list
+                         $sql = "SELECT eeNumber, fName, lName  FROM eeName ORDER BY lName";
+                         $result = $db->query($sql);
+                         while($row = $result->fetch_assoc()) {
+                             echo "<option value=" . $row[eeNumber] . ">" . $row["eeNumber"] . " "
+                                 . $row["fName"] . " " . $row["lName"]
+                                 . "</option>";
+                         }
+                         ?>
+                     </select><br />
+                     <label for="mthSelect">Select Month/Year</label><br />
+                     <input type="month"
+                            name="mthSelect"
+                            id="mthSelect"
+                            value="">
+                     <button type="submit" class="btn btn-info" id="btnViewSchedule">View My
+                         Schedule</button>
+                 </div>
+                 </form>
+             </div>
         </div><!--____________________________/Col1____________-->
 
-        <!--___________________________________Start Co#2______-->
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-             <div class="well">Row2Col2</div>
-        </div><!--________________________________/Col2_________-->
-
-        <!--___________________________________Start Col3______-->
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            <div class="well">Row2Col3</div>
-        </div><!--____________________________/Col3____________-->
-
-        <!--___________________________________Start Col4______-->
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            <div class="well">Row2Col4</div>
-        </div><!--____________________________/Col4____________-->
 
     </div><!--________________________________/Row2_________-->
 
@@ -118,26 +146,17 @@ xs - xtra small       mobile       0px+  -->
 
     <div class="row">
         <!--___________________________________Start Col1______-->
-     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-         <div class="well">Row3Col1</div>
+     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-12">
+         <div class="well">
+             <?php
+                displaySchedule();
+             ?>
+
+
+         </div>
      </div><!--____________________________/Col1____________-->
 
-        <!--___________________________________Start Col2______-->
-     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-         <div class="well">Row3Col2</div>
-     </div><!--______________________________/Col2_________-->
 
-        <!--___________________________________Start Col3______-->
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            <div class="well">Row3Col3</div>
-        </div><!--____________________________/Col3____________-->
-
-        <!--___________________________________Start Col4______-->
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            <div class="well">Row3Col4</div>
-        </div><!--____________________________/Col4____________-->
-
-    </div><!--  _____________________________/Row3_____________-->
 
 
     <!--  ________________________________  Start of Row4_______    -->
@@ -145,78 +164,18 @@ xs - xtra small       mobile       0px+  -->
     <div class="row">
         <!--___________________________________Start Col1______-->
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            <div class="well">Row4Col1</div>
         </div><!--____________________________/Col1____________-->
-
         <!--___________________________________Start Col2______-->
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            <div class="well">Row4Col2</div>
         </div><!--______________________________/Col2_________-->
-
         <!--___________________________________Start Col3______-->
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            <div class="well">Row4Col3</div>
         </div><!--____________________________/Col3____________-->
-
         <!--___________________________________Start Col4______-->
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            <div class="well">Row4Col4</div>
+                <button type="button" class="btn btn-default" onclick="printPage()">Print This Page</button>
         </div><!--____________________________/Col4____________-->
-
     </div><!--  _____________________________/Row4_____________-->
-
-
-    <!--  ________________________________  Start of Row5_______    -->
-
-    <div class="row">
-        <!--___________________________________Start Col1______-->
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            <div class="well">Row5Col1</div>
-        </div><!--____________________________/Col1____________-->
-
-        <!--___________________________________Start Col2______-->
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            <div class="well">Row5Col2</div>
-        </div><!--______________________________/Col2_________-->
-
-        <!--___________________________________Start Col3______-->
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            <div class="well">Row5Col3</div>
-        </div><!--____________________________/Col3____________-->
-
-        <!--___________________________________Start Col4______-->
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            <div class="well">Row5Col4</div>
-        </div><!--____________________________/Col4____________-->
-
-    </div><!--  _____________________________/Row5_____________-->
-
-
-    <!--  ________________________________  Start of Row6_______    -->
-    <div class="row">
-        <!--___________________________________Start Col1______-->
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            <div class="well">Row6Col1</div>
-        </div><!--____________________________/Col1____________-->
-
-        <!--___________________________________Start Col2______-->
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            <div class="well">Row6Col2</div>
-        </div><!--______________________________/Col2_________-->
-
-        <!--___________________________________Start Col3______-->
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            <div class="well">Row6Col3</div>
-        </div><!--____________________________/Col3____________-->
-
-        <!--___________________________________Start Col4______-->
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            <div class="well">Row6Col4</div>
-        </div><!--____________________________/Col4____________-->
-
-    </div><!--  _____________________________/Row6_____________-->
-
-
 
 </div><!--______________________________/ContentContainer____-->
 <!--_____________________________________________________________________________PAGE-FOOTER_____________________________________-->
@@ -238,6 +197,11 @@ xs - xtra small       mobile       0px+  -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
 <!-- (4) Bring in local JavaScript functions -->
 <!--<script src="script.js"></script>-->
+<script>
+    function printPage ( ) {
+        window.print();
+    }
+</script>
 <!-- (5) Connect to local CSS for this site -->
 <link rel="stylesheet" type="text/css" href="style.css">
 

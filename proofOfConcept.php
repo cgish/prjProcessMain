@@ -109,7 +109,7 @@
                                    id="optCreate"
                                    value="create" checked><br>
 
-                            <label for="display">Display Current Database</label>
+                            <label for="display">Display Current Schedule</label>
                             <input type="radio"
                                    title="Display Tables"
                                    name="optRadio"
@@ -160,26 +160,35 @@
                     /******************************************************************
                      *              create the tables
                      *****************************************************************/
-                    //create Table:employees
-                    $sql = "CREATE TABLE IF NOT EXISTS employee (
-                                id_ee                        INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-                                fName                      VARCHAR(20) NOT NULL,
-                                lName                      VARCHAR(20) NOT NULL,
-                                eeNumber                 SMALLINT  NOT NULL,
-                                scheduledDate          DATE NOT NULL,
-                                scheduledStart         TIME NOT NULL,
-                                scheduledEnd           TIME NOT NULL,
-                                eeStatus                  INT(6) NOT NULL
+                    //create Table:eeStatus
+                    $sql = "CREATE TABLE IF NOT EXISTS eeSchedule (
+                                id_eeSchedule         INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                                fName                      INT(6) NOT NULL,
+                                lName                      INT(6) NOT NULL,
+                                eeNumber                INT(6) NOT NULL,
+                                scheduledDate         DATE NOT NULL,
+                                scheduledStart        TIME NOT NULL,
+                                scheduledEnd          TIME NOT NULL
+                                
                                 )";
-
                     runQuery($sql, "Creating Employee table", TRUE);
+
 
                     //create Table:eeStatus
                     $sql = "CREATE TABLE IF NOT EXISTS eeStatus (
-                                id_status         int(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                                id_eeStatus     int(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                                 eeStatus         VARCHAR(10) NOT NULL
                                 )";
+                    runQuery($sql, "Creating Employee Status Table", TRUE);
 
+                    //create Table:eeName
+                    $sql = "CREATE TABLE IF NOT EXISTS eeName (
+                                id_eeName         int(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                                fName                VARCHAR(20) NOT NULL,
+                                lName                 VARCHAR(20) NOT NULL,
+                                eeNumber          SMALLINT,
+                                eeStatus            SMALLINT
+                                )";
                     runQuery($sql, "Creating Employee Status Table", TRUE);
 
 
@@ -189,23 +198,23 @@
                     //populate Table:employee
 
                     $eeArray = array(
-                        array(' ', 'Jimmy', 'Vaughn', 55, '2017-06-15', '08:00:00', '16:00:00', '1'),
-                        array(' ', 'Jane', 'Doe', 183, '2017-06-15', '10:00:00', '16:00:00', '2'),
+                        array(' ', '1', '1', "55", '2017-06-15', '08:00:00', '16:00:00'),
+                        array(' ', '2', '2', "183", '2017-06-15', '10:00:00', '16:00:00'),
                     );
 
                     //print_r($eeArray);
 
                     foreach ($eeArray as $ee) {
                         //echo $ee[0] . " " . $ee[1] . "<br />";
-                        $sql = "INSERT INTO employee (id_ee, fName, Lname, eeNumber, scheduledDate, scheduledStart, scheduledEnd, eeStatus) "
+                        $sql = "INSERT INTO eeSchedule (id_eeSchedule, fName, Lname, eeNumber, scheduledDate, 
+                                                                                scheduledStart, scheduledEnd) "
                             . "VALUES ('" . $ee[0] . "','"
                             . $ee[1] . "', '"
                             . $ee[2] . "', '"
                             . $ee[3] . "', '"
                             . $ee[4] . "', '"
                             . $ee[5] . "', '"
-                            . $ee[6] . "', '"
-                            . $ee[7] . "')";
+                            . $ee[6] . "')";
 
                         runQuery($sql, "Record Inserted for: $ee[1]", true);
                     }
@@ -217,16 +226,31 @@
                         array(' ', 'LOA-Unpaid'),
                         array(' ', 'Layoff'),
                         array(' ', 'Term'),
-                        array(' ', 'FMLA'),
+                        array(' ', 'FMLA')
                     );
                     //print_r($statusArray);
 
                     foreach ($statusArray as $statusEE) {
                         //echo $statusEE[0] . " " . $statusEE[1] . "<br />";
-                        $sql = "INSERT INTO eeStatus (id_status, eeStatus) "
+                        $sql = "INSERT INTO eeStatus (id_eeStatus, eeStatus) "
                             . "VALUES ('" . $statusEE[0] . "','" . $statusEE[1] . "')";
 
-                        runQuery($sql, "Record Inserted for: $statusEE[1]", false);
+                        runQuery($sql, "Record Inserted for: $statusEE[1]", true);
+                    }
+
+                    //populate Table:eeName
+                    $nameArray = array(
+                        array('Jimmy', 'Vaughn', 55),
+                        array('Jane', 'Doe', 183),
+                    );
+                    //print_r($nameArray);
+
+                    foreach ($nameArray as $nameEE) {
+                        //echo $statusEE[0] . " " . $statusEE[1] . "<br />";
+                        $sql = "INSERT INTO eeName (fName, lName, eeNumber) "
+                            . "VALUES ('" . $nameEE[0] . "','" . $nameEE[1] . "','" . $nameEE[2] . "')";
+
+                        runQuery($sql, "Record Inserted for: $nameEE[1]", true);
                     }
                     break;
 
@@ -239,13 +263,17 @@
                         die('unable to connect to database [' . $db->connect_error . ']');
                     }
 
-                    $sql = "SELECT employee.fName, employee.lName, employee.eeNumber, employee.scheduledDate, 
-                                               employee.scheduledStart, employee.scheduledEnd, eeStatus.eeStatus 
-                                               FROM employee 
-                                               LEFT OUTER JOIN eeStatus 
-                                               ON employee.eeStatus = eeStatus.id_Status
-                                               ORDER BY lName";
-
+                    $sql = "SELECT eeName.fName, eeName.lName, eeName.eeNumber, eeSchedule.scheduledDate,
+                                               eeSchedule.scheduledStart, eeSchedule.scheduledEnd
+                                              FROM eeSchedule
+                   
+                                               LEFT OUTER JOIN eeName ON eeSchedule.eeNumber = eeName.eeNumber
+                   
+                                               ORDER BY lName
+                                                                             
+                                                                                            
+                                            ";
+                   // $sql = "SELECT * FROM eeName";
                     $result = $db->query($sql);
 
                     //get data from the database using sql
@@ -253,7 +281,7 @@
                      //   die('There was an error running the query [' . $db->connect_error . ']');
                     //}
 
-                        echo '<h2>Employee List</h2>';
+                        echo '<h2>Employee Schedule</h2>';
                         echo '<table class="table">';
                         echo '<tr>';
                         echo '<th colspan="2">Name</th>';
@@ -261,7 +289,7 @@
                         echo '<th>Date</th>';
                         echo '<th>Start Time</th>';
                         echo '<th>End Time</th>';
-                        echo '<th>Status</th>';
+
 
                         while ($row = $result->fetch_assoc()) {
                             echo '<tr>';
@@ -288,7 +316,7 @@
 
     <!--<div class="row">
         <!--___________________________________Start Col1______-->
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-6">
             <div class="well"><h2><small>Add a New Employee</small></h2>
             <form action="newEE.php" method="post">
                 <div class="form-group">
@@ -327,28 +355,28 @@
         </div><!--____________________________/Col1____________-->
 
         <!--___________________________________Start Col2______-->
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <!--<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
             <div class="well"><h2><small>Change EE Status</small></h2>
             <form action="eeStatusProof.php" method="post">
 
                 <div class="form-group">
                     <label for="currentEEStatus">Select Employee</label>
-                    <select class="form-control" id="currentEEStatus" name="currentEEStatus">
+                    <select class="form-control" id="currentEEnumber" name="currentEEnumber">
                         <?PHP
-                        global $sql;
+                        //global $sql;
 
-                        $db = new mysqli(DBF_SERVER, DBF_USER, DBF_PASSWORD, DBF_NAME);
-                        if ($db->connect_errno > 0) {
-                            die('unable to connect to database [' . $db->connect_error . ']');
-                        }
+                        //$db = new mysqli(DBF_SERVER, DBF_USER, DBF_PASSWORD, DBF_NAME);
+                        //if ($db->connect_errno > 0) {
+                        //    die('unable to connect to database [' . $db->connect_error . ']');
+                        //}
                         // Loop through the table to build the <option> list
-                        $sql = "SELECT eeNumber, fName, lName  FROM employee ORDER BY lName";
-                        $result = $db->query($sql);
-                        while($row = $result->fetch_assoc()) {
-                            echo "<option value=" . $row[eeNumber] . ">" . $row["eeNumber"] . " "
-                                . $row["fName"] . " " . $row["lName"]
-                                . "</option>";
-                        }
+                        //$sql = "SELECT eeNumber, fName, lName  FROM eeName ORDER BY lName";
+                        //$result = $db->query($sql);
+                        //while($row = $result->fetch_assoc()) {
+                        //   echo "<option value=" . $row[eeNumber] . ">" . $row["eeNumber"] . " "
+                        //     . $row["fName"] . " " . $row["lName"]
+                        //     . "</option>";
+                        //}
                         ?>
                     </select>
                 </div>
@@ -371,7 +399,7 @@
         </div><!--______________________________/Col2_________-->
 
         <!--___________________________________Start Col3______-->
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-6">
             <div class="well"><h2><small>Create/Modify Schedule</small></h2>
 
             <form action="scheduleProof.php" method="post">
@@ -379,7 +407,7 @@
                 <div class="form-group">
                     <label for="currentEESchedule">Select Employee</label>
                     <select class="form-control" id="currentEESchedule" name="currentEESchedule">
-                        <?PHP//FIXME NOT PASSING ENOUGH VALUES TO ADD RECORDS TO DB
+                        <?PHP
                         global $sql;
 
                         $db = new mysqli(DBF_SERVER, DBF_USER, DBF_PASSWORD, DBF_NAME);
@@ -387,14 +415,16 @@
                             die('unable to connect to database [' . $db->connect_error . ']');
                         }
                         // Loop through the table to build the <option> list
-                        $sql = "SELECT eeNumber, fName, lName  FROM employee ORDER BY lName";
+                        $sql = "SELECT eeNumber, fName, lName  FROM eeName ORDER BY lName";
                         $result = $db->query($sql);
                         while($row = $result->fetch_assoc()) {
-                            echo "<option value=" . $row[eeNumber] . ">" . $row["eeNumber"] . " " . $row["fName"] . " " . $row["lName"]
+                            echo "<option value=" . $row[eeNumber] . ">" . $row["eeNumber"] . " "
+                                . $row["fName"] . " " . $row["lName"]
                                 . "</option>";
                         }
                         ?>
                     </select>
+
                 </div>
 
                 <div class="form-group">
@@ -402,7 +432,8 @@
                     <input type="date"
                            class="form-control"
                            id="workDate"
-                           name="workDate">
+                           name="workDate"
+                           value="2017-07-14" >
                 </div>
 
                 <div class="form-group">
@@ -410,7 +441,8 @@
                     <input type="time"
                            class="form-control"
                            id="startTime"
-                           name="startTime">
+                           name="startTime"
+                           value="09:30:00" >
                 </div>
 
                 <div class="form-group">
@@ -418,7 +450,8 @@
                     <input type="time"
                            class="form-control"
                            id="endTime"
-                           name="endTime">
+                           name="endTime"
+                           value="18:30:00" >
                 </div>
 
                 <button type="submit" class="btn btn-success">Add</button>
